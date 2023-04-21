@@ -18,7 +18,8 @@ pipeline {
                 script{
                 //Reading the current BUILD_NUMBER value
                 def value=sh "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-"
-                sh'echo "$value"'
+                //sh'echo "$value"'
+                print "The number is : ${value}"
                 //sh 'echo "The number is : ${value}"'
                 //Incrementing the BUILD_NUMBER by 1
                 //sh '((value++))'
