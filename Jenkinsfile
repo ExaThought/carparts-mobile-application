@@ -25,22 +25,10 @@ pipeline {
                )
                echo "value: ${value}"
                def sum = value.toInt() + 1
-               def  newvalue = sh (
-               script: "value.toInt() + 1",
-               returnStdout: true
-               )
-               def  newvalue2 = sh (
-               script: "${value.toInt()} + 1",
-               returnStdout: true
-               )
-               def  newvalue3 = sh (
-               script: "${value.toInt() + 1}",
-               returnStdout: true
-               )
-               def  newvalue4= sh (
-               script: "${value.toInt()}" + 1,
-               returnStdout: true
-               )
+               def  newvalue = value.toInt() + 1
+               def  newvalue2 = "${value.toInt()} + 1"
+               def  newvalue3 = "${value.toInt() + 1}"
+               def  newvalue4= "${value.toInt()}" + 1
             //    def newvalue= sh (
             //    script: "${value}+1");
                 // sh 'newvalue=$((value+1))'
