@@ -26,9 +26,10 @@ pipeline {
                echo "value: ${value}"
             //    def newvalue=sh(script:"${value}+${1}",returnStdout: true
             //    ).trim()
-               def newvalue=${value}+1;
+            //    def newvalue= sh (
+            //    script: "${value}+1");
                 // sh 'newvalue=$((value+1))'
-                echo "newvalue: ${newvalue}"
+                echo "newvalue: ${value} ${value+1} ${value}+1 "${value+1}" "${value}+1" "
                 // sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
