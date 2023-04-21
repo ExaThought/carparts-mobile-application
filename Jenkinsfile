@@ -24,14 +24,11 @@ pipeline {
                returnStdout: true
                )
                echo "value: ${value}"
-               def str2 = "456"
-                def num3 = Integer.parseInt("${value}") // using parseInt() method
-                echo "num3: ${num3}"
-                    def num1 = num3
-                    def num2 = 1
-                    def sum = sh(returnStdout: true, script: "expr ${num1} + ${num2}").trim()
-                    echo "The sum of ${num1} and ${num2} is ${sum}"
-                // sh 'echo "The newvalue is : $newvalue"'
+               def num1 = 2
+               def num2 = 1
+               def newvalue = sh(returnStdout: true, script: "expr ${num1} + ${num2}").trim()
+               echo "The sum of ${num1} and ${num2} is ${newvalue}"
+                sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
             }
