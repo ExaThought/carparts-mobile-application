@@ -4,6 +4,7 @@ pipeline {
         stage('Flutter pub') {
             steps {
                 sh 'flutter clean'
+                sh 'flutter pub upgrade'
                 sh 'flutter pub get'
                 sh 'flutter pub global activate rename'
                 sh 'flutter pub global run rename --appname "carparts.com"'
