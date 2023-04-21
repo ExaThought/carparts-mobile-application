@@ -24,7 +24,7 @@ pipeline {
                returnStdout: true
                ).trim()
                echo "value: ${value}"
-               def newvalue=sh(script:"${value}+1",returnStdout: true
+               def newvalue=sh(script:"${value+1}",returnStdout: true
                ).trim()
                 // sh 'newvalue=$((value+1))'
                 echo "newvalue: ${newvalue}"
