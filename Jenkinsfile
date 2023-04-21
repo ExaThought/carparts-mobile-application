@@ -11,7 +11,7 @@ pipeline {
         stage('BuildNumber') {
             steps {
                 //Reading the current BUILD_NUMBER value
-                sh 'value=$(grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-)'
+                sh "value=$(grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-)"
                 sh 'echo $value'
                 //Incrementing the BUILD_NUMBER by 1
                 sh 'newvalue=$((value+1))'
