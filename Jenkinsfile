@@ -12,8 +12,15 @@ pipeline {
             steps {
                 //Reading the current BUILD_NUMBER value
                 // sh 'value=$(grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-)'
-                   sh 'value="grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties  | cut -d'=' -f2-"'
+                  // sh 'value="grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties  | cut -d'=' -f2-"'
                 //  sh 'value="$(grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties | cut -d "= '-f2-')'
+                 // Define the name of the property to read
+            def property_name = "build_number"
+            // Read the value of the property from the file
+            def value = sh(script: "grep '^${property_name}=' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-", returnStdout: true).trim()
+            // Print the value of the property to the console
+            echo "The value of ${property_name} is ${value}"
+
                 sh 'echo $value'
                 //Incrementing the BUILD_NUMBER by 1
                 sh 'newvalue=$((value+1))'
