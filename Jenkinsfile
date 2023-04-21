@@ -24,6 +24,10 @@ pipeline {
                returnStdout: true
                )
                echo "value: ${value}"
+               val1=value.toInteger()
+               val2=1
+               sum=$(($val1 + $val2))
+               echo "sum value: ${sum}"
             //    def newvalue=sh(script:"${value}+${1}",returnStdout: true
             //    ).trim()
             //    def newvalue= sh (
