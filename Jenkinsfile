@@ -24,7 +24,9 @@ pipeline {
                returnStdout: true
                ).trim()
                echo "value: ${value}"
-                sh 'newvalue=$((value+1))'
+               def newvalue=sh(script:"${value}+1",returnStdout: true
+               ).trim()
+                // sh 'newvalue=$((value+1))'
                 echo "newvalue: ${newvalue}"
                 // sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
