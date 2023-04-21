@@ -24,12 +24,8 @@ pipeline {
                returnStdout: true
                )
                echo "value: ${value}"
-               val1=value.toInteger()
-               val2=1
-               sum=$(($val1 + $val2))
-               echo "sum value: ${sum}"
-            //    def newvalue=sh(script:"${value}+${1}",returnStdout: true
-            //    ).trim()
+               def num2 = 1
+               def sum = sh(script: "expr ${value} + ${num2}", returnStdout: true).trim()
             //    def newvalue= sh (
             //    script: "${value}+1");
                 // sh 'newvalue=$((value+1))'
@@ -37,7 +33,7 @@ pipeline {
             //    script: "${value}")
             //     def int1 =sh (
             //    script: "${str1}.toInteger()")
-                echo "newvalue: ${value} ${value+1} ${value}+1 "${value+1}" "${value}+1" "
+                echo "newvalue: ${sum}"
                 // sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
