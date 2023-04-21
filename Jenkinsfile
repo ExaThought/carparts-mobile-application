@@ -20,7 +20,8 @@ pipeline {
                 def value=sh "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-"
                 sh 'echo $value'
                 //Incrementing the BUILD_NUMBER by 1
-                sh 'newvalue=$((value+1))'
+                def newvalue= value+1
+                //sh 'newvalue=$((value+1))'
                 sh 'echo $newvalue'
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
