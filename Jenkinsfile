@@ -10,6 +10,7 @@ pipeline {
         }
         stage('BuildNumber') {
             steps {
+                script{
                 //Reading the current BUILD_NUMBER value
                 def value=sh "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-"
                 sh 'echo ${value}'
@@ -19,6 +20,7 @@ pipeline {
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
             }
+          }
         }
         stage('Flutter Build') {
             steps {
