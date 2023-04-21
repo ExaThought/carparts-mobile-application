@@ -29,8 +29,10 @@ pipeline {
             //    def newvalue= sh (
             //    script: "${value}+1");
                 // sh 'newvalue=$((value+1))'
-                def str1 = ${value}
-                def int1 = str1.toInteger()
+                def str1 =sh (
+               script: "${value}")
+                def int1 =sh (
+               script: "${str1}.toInteger()")
                 echo "newvalue: ${int1} ${int1+1} ${int1}+1 "${int1+1}" "${int1}+1" "
                 // sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
