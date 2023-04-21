@@ -19,10 +19,10 @@ pipeline {
 
                 //Reading the current BUILD_NUMBER value
 
-               def -i value = sh (
+               def  value = sh (
                script: "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-",
                returnStdout: true
-               ).trim()
+               )
                echo "value: ${value}"
             //    def newvalue=sh(script:"${value}+${1}",returnStdout: true
             //    ).trim()
