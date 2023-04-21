@@ -24,8 +24,8 @@ pipeline {
                returnStdout: true
                )
                echo "value: ${value}"
-               def num1 = 10
-                    def num2 = 20
+               def num1 = value.toInt()
+                    def num2 = 1
                     def sum = sh(returnStdout: true, script: "expr ${num1} + ${num2}").trim()
                     echo "The sum of ${num1} and ${num2} is ${sum}"
                 // sh 'echo "The newvalue is : $newvalue"'
