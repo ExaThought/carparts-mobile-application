@@ -16,6 +16,16 @@ pipeline {
         stage('BuildNumber') {
             steps {
                 script{
+//                     GIT_COMMIT_EMAIL = sh (
+//     script: 'git --no-pager show -s --format=\'%ae\'',
+//     returnStdout: true
+// ).trim()
+// echo "Git committer email: ${GIT_COMMIT_EMAIL}"
+def testvalue = sh (
+    script: "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-",
+    returnStdout: true
+).trim()
+echo "testvalue: ${testvalue}"
                 //Reading the current BUILD_NUMBER value
                 def value=sh "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-"
                 sh'echo "$value"'
