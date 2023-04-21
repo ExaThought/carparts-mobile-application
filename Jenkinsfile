@@ -3,6 +3,8 @@ pipeline {
     stages {
         stage('Flutter pub') {
             steps {
+                sh 'pwd'
+                sh 'ls'
                 // sh 'flutter clean'
                 // sh 'flutter pub upgrade'
                 // sh 'flutter pub get'
