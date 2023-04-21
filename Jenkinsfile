@@ -30,9 +30,8 @@ pipeline {
                echo "The sum of ${num1} and ${num2} is ${newvalue}"
                 sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
-                // sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
-                sh 'sed -i "s/build_number=${value}/build_number=${newvalue}/g" /var/lib/jenkins/BUILD_NUMBER.properties'
-
+                sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
+                
             }
           }
         }
