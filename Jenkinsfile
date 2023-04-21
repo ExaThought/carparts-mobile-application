@@ -25,10 +25,8 @@ pipeline {
                )
                echo "value: ${value}"
                def str2 = "456"
-                def num3 = Integer.parseInt(value) // using parseInt() method
+                def num3 = Integer.parseInt("${value}") // using parseInt() method
                 echo "num3: ${num3}"
-                def num4 = Integer.valueOf(value)  // using valueOf() method
-                echo "num4: ${num4}"
                     def num1 = num3
                     def num2 = 1
                     def sum = sh(returnStdout: true, script: "expr ${num1} + ${num2}").trim()
