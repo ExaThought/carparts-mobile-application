@@ -19,7 +19,7 @@ pipeline {
 
                 //Reading the current BUILD_NUMBER value
 
-               def value = sh (
+               def -i value = sh (
                script: "grep 'build_number' /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2-",
                returnStdout: true
                ).trim()
@@ -29,11 +29,11 @@ pipeline {
             //    def newvalue= sh (
             //    script: "${value}+1");
                 // sh 'newvalue=$((value+1))'
-                def str1 =sh (
-               script: "${value}")
-                def int1 =sh (
-               script: "${str1}.toInteger()")
-                echo "newvalue: ${int1} ${int1+1} ${int1}+1 "${int1+1}" "${int1}+1" "
+            //     def str1 =sh (
+            //    script: "${value}")
+            //     def int1 =sh (
+            //    script: "${str1}.toInteger()")
+                echo "newvalue: ${value} ${value+1} ${value}+1 "${value+1}" "${value}+1" "
                 // sh 'echo "The newvalue is : $newvalue"'
                 //Writing the current BUILD_NUMBER value
                 sh 'sed -i "s/build_number=$value/build_number=$newvalue/g" /var/lib/jenkins/BUILD_NUMBER.properties'
