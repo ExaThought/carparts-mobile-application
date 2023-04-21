@@ -1,18 +1,18 @@
 pipeline {
     agent any
     stages {
-        stage('Flutter pub') {
-            steps {
-                sh 'pwd'
-                sh 'ls'
-                // sh 'flutter clean'
-                // sh 'flutter pub upgrade'
-                // sh 'flutter pub get'
-                sh 'flutter pub global activate rename'
-                sh 'flutter pub global run rename --appname "carparts.com"'
-                sh 'flutter pub run change_app_package_name:main com.carparts.app'
-            }
-        }
+        // stage('Flutter pub') {
+        //     steps {
+        //         sh 'pwd'
+        //         sh 'ls'
+        //         // sh 'flutter clean'
+        //         // sh 'flutter pub upgrade'
+        //         // sh 'flutter pub get'
+        //         sh 'flutter pub global activate rename'
+        //         sh 'flutter pub global run rename --appname "carparts.com"'
+        //         sh 'flutter pub run change_app_package_name:main com.carparts.app'
+        //     }
+        // }
         stage('BuildNumber') {
             steps {
                 script{
