@@ -1,5 +1,5 @@
-flutter pub global activate rename
-flutter pub global run rename --appname "carparts.com"
+#flutter pub global activate rename
+#flutter pub global run rename --appname "carparts.com"
 cd android
 value=$(grep "build_number" /var/lib/jenkins/BUILD_NUMBER.properties | cut -d'=' -f2)
 echo $value

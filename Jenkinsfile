@@ -52,7 +52,18 @@
 pipeline {
     agent any
     stages {
-        stage('Flutter Build') {
+        stage('Overwrite Properties File') {
+            steps {
+                sh 'cd android'
+                writeFile file: 'key.properties', text: 'storePassword=exathought321'
+                writeFile file: 'key.properties', text: 'keyPassword=exathought321'
+                writeFile file: 'key.properties', text: 'keyAlias=upload'
+                writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
+            }
+        }
+    }
+    stages {
+        stage('Build and Deploy') {
             steps {
                 sh 'sh BuildAndDeployAndroidInternalTestersRelease.sh'
             }
