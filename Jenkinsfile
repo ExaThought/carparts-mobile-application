@@ -61,8 +61,6 @@ pipeline {
                 writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
             }
         }
-    }
-    stages {
         stage('Build and Deploy') {
             steps {
                 sh 'sh BuildAndDeployAndroidInternalTestersRelease.sh'
