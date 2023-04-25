@@ -82,7 +82,7 @@ pipeline {
         def entries = [
           'storePassword': 'exathought321',
           'keyPassword': 'exathought321',
-          'keyAlias': 'upload'
+          'keyAlias': 'upload',
           'storeFile': '/var/lib/jenkins/upload-keystore.jks'
         ]
         def props = entries.collect { key, value -> "${key}=${value}" }.join("\n")
