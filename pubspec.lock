@@ -131,6 +131,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.0"
+  newrelic_mobile:
+    dependency: "direct main"
+    description:
+      name: newrelic_mobile
+      sha256: e315c4b757641ef34034195c5b6e086f19cebf4f134e625c8aba622ab91b77e7
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
