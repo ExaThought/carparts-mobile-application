@@ -59,10 +59,9 @@ pipeline {
                 dir('android') {
                     sh 'ls' 
                     sh 'pwd'
-                    writeFile file: 'key.properties', text: 'storePassword=exathought321'
-                    writeFile file: 'key.properties', text: 'keyPassword=exathought321'
-                    writeFile file: 'key.properties', text: 'keyAlias=upload'
-                    writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
+                    def props = readFile(file: 'key.properties')
+                    def props = "storePassword=exathought321\nkeyPassword=exathought321\nkeyAlias=upload\nstoreFile=/var/lib/jenkins/upload-keystore.jks\n"
+                    writeFile(file: 'key.properties', text: props)
                     sh 'cat key.properties'
                 }
                 sh 'ls'
@@ -70,7 +69,7 @@ pipeline {
                 // writeFile file: 'key.properties', text: 'storePassword=exathought321'
                 // writeFile file: 'key.properties', text: 'keyPassword=exathought321'
                 // writeFile file: 'key.properties', text: 'keyAlias=upload'
-                // writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
+                // writeFile file: 'key.properties', text: 'storeFile=/var/lib/jenkins/upload-keystore.jks'
                 // sh 'cat key.properties'
             }
         }
