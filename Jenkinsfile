@@ -54,7 +54,6 @@ pipeline {
     stages {
         stage('Overwrite Properties File') {
             steps {
-                def props = readFile(file: '~/android/key.properties')
                 sh 'pwd'
                 sh 'ls'
                 dir('android') {
