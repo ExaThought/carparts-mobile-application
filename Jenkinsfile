@@ -66,7 +66,7 @@ pipeline {
                     storePassword=exathought321
                     keyPassword=exathought321
                     keyAlias=upload
-                    storeFile=/var/lib/jenkins/upload-keystore.jks
+                    storeFile=/var/lib/jenkins/Car-prts/upload-keystore.jks
                     '''
                     //writeFile file: 'key.properties', text: 'storePassword=exathought321'
                     // writeFile file: 'key.properties', text: 'keyPassword=exathought321'
@@ -79,7 +79,7 @@ pipeline {
                 // writeFile file: 'key.properties', text: 'storePassword=exathought321'
                 // writeFile file: 'key.properties', text: 'keyPassword=exathought321'
                 // writeFile file: 'key.properties', text: 'keyAlias=upload'
-                // writeFile file: 'key.properties', text: 'storeFile=/var/lib/jenkins/upload-keystore.jks'
+                // writeFile file: 'key.properties', text: 'storeFile=/var/lib/jenkins/Car-prts/upload-keystore.jks'
                 // sh 'cat key.properties'
             }
         }
