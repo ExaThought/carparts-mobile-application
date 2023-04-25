@@ -60,7 +60,7 @@ pipeline {
                 dir('android') {
                     sh 'ls' 
                     sh 'pwd'
-                    def props = readFile(file: 'key.properties')
+                    //def props = readFile(file: 'key.properties')
                     //def props = "storePassword=exathought321\nkeyPassword=exathought321\nkeyAlias=upload\nstoreFile=/var/lib/jenkins/upload-keystore.jks\n"
                     //writeFile(file: 'key.properties', text: props)
                     writeFile file: 'key.properties', text: 'storePassword=exathought321'
