@@ -55,6 +55,7 @@ pipeline {
         stage('Overwrite Properties File') {
             steps {
                 sh 'pwd'
+                sh 'ls'
                 sh 'cd ./android'
                 sh 'pwd'
                 writeFile file: 'key.properties', text: 'storePassword=exathought321'
