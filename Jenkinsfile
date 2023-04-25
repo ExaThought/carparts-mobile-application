@@ -56,7 +56,8 @@ pipeline {
             steps {
                 sh 'pwd'
                 sh 'ls'
-                sh 'cd ./android'
+                sh 'cd android'
+                sh 'ls'
                 sh 'pwd'
                 writeFile file: 'key.properties', text: 'storePassword=exathought321'
                 writeFile file: 'key.properties', text: 'keyPassword=exathought321'
