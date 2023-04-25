@@ -59,14 +59,19 @@ pipeline {
                 dir('android') {
                     sh 'ls' 
                     sh 'pwd'
+                    writeFile file: 'key.properties', text: 'storePassword=exathought321'
+                    writeFile file: 'key.properties', text: 'keyPassword=exathought321'
+                    writeFile file: 'key.properties', text: 'keyAlias=upload'
+                    writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
+                    sh 'cat key.properties'
                 }
                 sh 'ls'
                 sh 'pwd'
-                writeFile file: 'key.properties', text: 'storePassword=exathought321'
-                writeFile file: 'key.properties', text: 'keyPassword=exathought321'
-                writeFile file: 'key.properties', text: 'keyAlias=upload'
-                writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
-                sh 'cat key.properties'
+                // writeFile file: 'key.properties', text: 'storePassword=exathought321'
+                // writeFile file: 'key.properties', text: 'keyPassword=exathought321'
+                // writeFile file: 'key.properties', text: 'keyAlias=upload'
+                // writeFile file: 'key.properties', text: '/var/lib/jenkins/upload-keystore.jks'
+                // sh 'cat key.properties'
             }
         }
         stage('Build and Deploy') {
