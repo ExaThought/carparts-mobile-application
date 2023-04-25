@@ -63,8 +63,8 @@ pipeline {
                     //def props = "storePassword=exathought321\nkeyPassword=exathought321\nkeyAlias=upload\nstoreFile=/var/lib/jenkins/upload-keystore.jks\n"
                     //writeFile(file: 'key.properties', text: props)
                     writeFile file: 'key.properties', text: '''
-                    storePassword=exathought321
-                    keyPassword=exathought321
+                    storePassword=jeevitha321
+                    keyPassword=jeevitha321
                     keyAlias=upload
                     storeFile=/var/lib/jenkins/Car-prts/upload-keystore.jks
                     '''
