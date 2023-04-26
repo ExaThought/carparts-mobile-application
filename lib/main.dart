@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-
-// import 'src/menu.dart';
-import 'src/navigation_controls.dart';    
 import 'src/web_view_stack.dart';
 
 void main() {
@@ -32,18 +29,22 @@ class _WebViewAppState extends State<WebViewApp> {
         Uri.parse('https://www.carparts.com/'),
       );
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('carparts.com'),
-        actions: [
-          NavigationControls(controller: controller),
-          // Menu(controller: controller),
-        ],
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(toolbarHeight: 0),
+        body: WebViewStack(controller: controller),
       ),
-      body: WebViewStack(controller: controller), 
+      onWillPop: () async {
+        if (await controller.canGoBack()) {
+          await controller.goBack();
+        } else {
+          return Future.value(true);
+        }
+        return Future.value(false);
+      },
     );
   }
 }
