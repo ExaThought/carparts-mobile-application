@@ -7,7 +7,18 @@ void main() {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(useMaterial3: true),
+      theme: ThemeData(
+        appBarTheme: AppBarTheme(
+          shadowColor: Colors.transparent,
+          elevation: 0.0,
+          color: Color.fromARGB(255, 47, 71, 135),
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Color.fromARGB(255, 47, 71, 135),
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.dark,
+          ),
+        ),
+      ),
       home: const WebViewApp(),
     ),
   );
@@ -38,11 +49,11 @@ class _WebViewAppState extends State<WebViewApp> {
       child: Scaffold(
         appBar: AppBar(
           toolbarHeight: 0,
-          systemOverlayStyle: const SystemUiOverlayStyle(
-            statusBarColor: Color.fromARGB(255, 47, 71, 135),
-            statusBarIconBrightness: Brightness.light,
-            statusBarBrightness: Brightness.light,
-          ),
+          // systemOverlayStyle: const SystemUiOverlayStyle(
+          //   statusBarColor: Color.fromARGB(255, 47, 71, 135),
+          //   statusBarIconBrightness: Brightness.light,
+          //   statusBarBrightness: Brightness.light,
+          // ),
         ),
         body: WebViewStack(controller: controller),
       ),
