@@ -6,6 +6,7 @@ import 'src/web_view_stack.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(useMaterial3: true),
       home: const WebViewApp(),
     ),
