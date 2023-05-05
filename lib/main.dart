@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'src/web_view_stack.dart';
 
@@ -34,7 +35,14 @@ class _WebViewAppState extends State<WebViewApp> {
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-        appBar: AppBar(toolbarHeight: 0),
+        appBar: AppBar(
+          toolbarHeight: 0,
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color.fromARGB(255, 47, 71, 135),
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.light,
+          ),
+        ),
         body: WebViewStack(controller: controller),
       ),
       onWillPop: () async {
