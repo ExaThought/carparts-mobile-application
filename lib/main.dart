@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -43,28 +44,34 @@ class _WebViewAppState extends State<WebViewApp> {
       );
   }
 
+  Scaffold scaffoldWidget() {
+    return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 0,
+      ),
+      body: WebViewStack(controller: controller),
+    );
+  }
+
+  backGestureButton() async {
+    if (await controller.canGoBack()) {
+      await controller.goBack();
+    } else {
+      return Future.value(true);
+    }
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-          // systemOverlayStyle: const SystemUiOverlayStyle(
-          //   statusBarColor: Color.fromARGB(255, 47, 71, 135),
-          //   statusBarIconBrightness: Brightness.light,
-          //   statusBarBrightness: Brightness.light,
-          // ),
-        ),
-        body: WebViewStack(controller: controller),
-      ),
-      onWillPop: () async {
-        if (await controller.canGoBack()) {
-          await controller.goBack();
-        } else {
-          return Future.value(true);
-        }
-        return Future.value(false);
-      },
-    );
+    return Platform.isIOS
+        ? GestureDetector(
+            onPanEnd: (details) async => backGestureButton(),
+            child: scaffoldWidget(),
+          )
+        : WillPopScope(
+            child: scaffoldWidget(),
+            onWillPop: () async => backGestureButton(),
+          );
   }
 }
