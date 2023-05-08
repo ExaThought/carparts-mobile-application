@@ -20,4 +20,48 @@ platform :ios do
   lane :custom_lane do
     # add actions here: https://docs.fastlane.tools/actions
   end
+
+  desc "To export our app"
+  lane :export_app do
+    gym(
+      project: "Runner.xcodeproj",
+      scheme: "Runner",
+      clean: true,
+      export_xcargs: "-allowProvisioningUpdates",
+      output_name: "ReleaseApp.ipa"
+    )
+  end
+
 end
+# default_platform(:ios)
+ 
+# platform :ios do
+#   desc "Push a new beta build to TestFlight"
+#   lane :beta do
+#     build_app(workspace: "Runner.xcworkspace", scheme: "Runner")
+#     upload_to_testflight
+#   end
+
+#   desc "Description of what the lane does"
+#   lane :CI do
+#       run_tests(project: "Runner.xcodeproj",
+#       devices: ["iPhone 13 Pro"],
+#       scheme: "Runner")
+#   end
+ 
+#   lane :CD do |values|
+ 
+#     gym(scheme: 'Runner', project: "Runner.xcodeproj", clean: true, silent: true, include_bitcode: false, export_method: 'ad-hoc')
+ 
+#     # emails = values[:test_email] ? values[:test_email] : ['[email]'] # You can list more emails here
+#     # groups = values[:test_email] ? nil : nil # You can define groups on the web and reference them here
+ 
+#     # crashlytics(api_token: '[CRASHLYTICS_API_TOKEN]',
+#     #          build_secret: '[CRASHLYTICS_ORG_SECRET]',
+#     #                emails: emails,
+#     #                groups: groups,
+#     #                 notes: 'Distributed with fastlane', # Check out the changelog_from_git_commits action
+#     #         notifications: true) # Should this distribution notify your testers via email?
+ 
+#     end
+# end
