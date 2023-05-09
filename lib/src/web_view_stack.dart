@@ -37,15 +37,7 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           onNavigationRequest: (navigation) {
-            final host = Uri.parse(navigation.url).host;
-            if (host.contains('youtube.com')) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    'Blocking navigation to $host',
-                  ),
-                ),
-              );
+            if (navigation.url.contains('fb://page/')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
