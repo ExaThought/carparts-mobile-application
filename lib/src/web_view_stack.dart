@@ -16,8 +16,6 @@ class _WebViewStackState extends State<WebViewStack> {
   @override
   void initState() {
     super.initState();
-    // print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-    int count = 0;
     widget.controller
       ..setNavigationDelegate(
         NavigationDelegate(
@@ -37,24 +35,7 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           onNavigationRequest: (navigation) {
-            print("*******************************");
-            count= count+1;
-            print(count);
-            final host = Uri.parse(navigation.url).host;
-            print(navigation);
-            print(navigation.url);
-            print(Uri.parse(navigation.url));
-            print(Uri.parse(navigation.url).host);
-            print(host);
-            print(host.contains('page'));
             if (navigation.url.contains('fb://page/')) {
-              // ScaffoldMessenger.of(context).showSnackBar(
-              //   SnackBar(
-              //     content: Text(
-              //       'Blocking navigation to $host',
-              //     ),
-              //   ),
-              // );
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
