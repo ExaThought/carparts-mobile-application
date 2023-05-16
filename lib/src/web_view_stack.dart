@@ -39,7 +39,6 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onNavigationRequest: (navigation) async {
             final Uri uri = Uri.parse(navigation.url);
-            print(uri);
             if (navigation.url.contains('fb://page/')) {
               return NavigationDecision.prevent;
             }
