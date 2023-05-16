@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -36,9 +37,20 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
           },
-          onNavigationRequest: (navigation) {
+          onNavigationRequest: (navigation) async {
+            final Uri uri = Uri.parse(navigation.url);
+            print(uri);
             if (navigation.url.contains('fb://page/')) {
               return NavigationDecision.prevent;
+            }
+            if (navigation.url.contains('tel')) {
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+                return NavigationDecision.prevent;
+              } else {
+                print("Cannot launch url");
+                return NavigationDecision.prevent;
+              }
             }
             return NavigationDecision.navigate;
           },
@@ -60,11 +72,11 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebViewWidget(
           controller: widget.controller,
-           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<VerticalDragGestureRecognizer>(
-                () => VerticalDragGestureRecognizer(),
-              ),
-            },
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          },
         ),
         if (loadingPercentage < 100)
           LinearProgressIndicator(
