@@ -14,18 +14,49 @@ class WebViewStack extends StatefulWidget {
 
 class _WebViewStackState extends State<WebViewStack> {
   var loadingPercentage = 0;
+  bool _isInitialLoad = true;
 
   @override
   void initState() {
     super.initState();
+    // print("vaishak");
+    // print(widget.controller.currentUrl().then((value) => print(value)));
     widget.controller
       ..setNavigationDelegate(
         NavigationDelegate(
-          onPageStarted: (url) {
-            setState(() {
-              loadingPercentage = 0;
-            });
-          },
+          // onPageStarted: (url) async {
+          //   print(
+          //       "onPageStarted**************************************************************************");
+          //   if (_isInitialLoad) {
+          //     final Uri uri = Uri.parse(url);
+          //     print("on page started $uri");
+          //     final Map<String, String> queryParameters =
+          //         Map.from(uri.queryParameters);
+          //     queryParameters.addAll({'fromMobile': '1'});
+          //     print("on page started $queryParameters");
+          //     final Uri modifiedUri =
+          //         Uri.https(uri.authority, uri.path, queryParameters);
+          //     print("on page started $modifiedUri");
+          //     await widget.controller.loadRequest(modifiedUri);
+          //     setState(() {
+          //       loadingPercentage = 0;
+          //     });
+          //     _isInitialLoad = false;
+          //   }
+          //   // final Uri uri = Uri.parse(url);
+          //   // print(uri);
+          //   // final Map<String, String> queryParameters =
+          //   //     Map.from(uri.queryParameters);
+          //   // queryParameters.addAll({'fromMobile': '1'});
+          //   // print(queryParameters);
+          //   // final Uri modifiedUri =
+          //   //     Uri.https(uri.authority, uri.path, queryParameters);
+          //   // print(modifiedUri);
+          //   // await widget.controller.loadRequest(modifiedUri);
+          //   // setState(() {
+          //   //   loadingPercentage = 0;
+          //   // });
+          // },
           onProgress: (progress) {
             setState(() {
               loadingPercentage = progress;
@@ -36,11 +67,41 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
           },
-          onNavigationRequest: (navigation) {
-            if (navigation.url.contains('fb://page/')) {
-              return NavigationDecision.prevent;
-            }
+          onNavigationRequest: (navigation)  {
+            // print(
+            //     "onNavigationRequest^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            // final Uri uri = Uri.parse(navigation.url);
+            // print(navigation);
+            // print(navigation.url);
+            // print(uri);
+            // final Map<String, String> queryParameters =
+            //     Map.from(uri.queryParameters);
+            // queryParameters.addAll({'fromMobile': '1'});
+            // print(queryParameters);
+            // final Uri modifiedUri =
+            //     Uri.https(uri.authority, uri.path, queryParameters);
+            // print(modifiedUri);
+            // if (navigation.url.contains('//page/')) {
+            //   return NavigationDecision.prevent;
+            // }
+            // widget.controller.loadRequest(modifiedUri);
+            // // if (navigation.url.contains('//page/')) {
+            // //   return NavigationDecision.prevent;
+            // // }
             return NavigationDecision.navigate;
+          },
+          onUrlChange: (change) async {
+            // print("steph curry");
+            // final Uri uri = Uri.parse(change as String);
+            //   print("onUrlChange $uri");
+            //   final Map<String, String> queryParameters =
+            //       Map.from(uri.queryParameters);
+            //   queryParameters.addAll({'fromMobile': '1'});
+            //   print("onUrlChange $queryParameters");
+            //   final Uri modifiedUri =
+            //       Uri.https(uri.authority, uri.path, queryParameters);
+            //   print("onUrlChange $modifiedUri");
+            //   await widget.controller.loadRequest(modifiedUri);
           },
         ),
       )
@@ -60,11 +121,11 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebViewWidget(
           controller: widget.controller,
-           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<VerticalDragGestureRecognizer>(
-                () => VerticalDragGestureRecognizer(),
-              ),
-            },
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          },
         ),
         if (loadingPercentage < 100)
           LinearProgressIndicator(
