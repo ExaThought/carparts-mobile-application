@@ -5,6 +5,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'src/web_view_stack.dart';
 
 void main() {
+   WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,

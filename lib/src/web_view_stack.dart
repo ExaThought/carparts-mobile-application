@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+// import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class WebViewStack extends StatefulWidget {
   const WebViewStack({required this.controller, super.key});
@@ -52,6 +55,9 @@ class _WebViewStackState extends State<WebViewStack> {
               .showSnackBar(SnackBar(content: Text(message.message)));
         },
       );
+    if (widget.controller.platform is AndroidWebViewController) {
+      AndroidWebViewController.enableDebugging(true);
+    }
   }
 
   @override
@@ -60,11 +66,11 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebViewWidget(
           controller: widget.controller,
-           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<VerticalDragGestureRecognizer>(
-                () => VerticalDragGestureRecognizer(),
-              ),
-            },
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+          },
         ),
         if (loadingPercentage < 100)
           LinearProgressIndicator(
