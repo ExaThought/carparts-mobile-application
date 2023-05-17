@@ -4,6 +4,8 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 
+import '../constants/navigation_constant.dart';
+
 class WebViewStack extends StatefulWidget {
   const WebViewStack({required this.controller, super.key});
 
@@ -39,17 +41,14 @@ class _WebViewStackState extends State<WebViewStack> {
           },
           onNavigationRequest: (navigation) async {
             final Uri uri = Uri.parse(navigation.url);
-            if (navigation.url.contains('fb://page/')) {
+            if (navigation.url.contains(WebViewConstant.facebook)) {
               return NavigationDecision.prevent;
             }
-            if (navigation.url.contains('tel')) {
+            if (navigation.url.contains(WebViewConstant.needHelp)) {
               if (await canLaunchUrl(uri)) {
                 await launchUrl(uri);
-                return NavigationDecision.prevent;
-              } else {
-                print("Cannot launch url");
-                return NavigationDecision.prevent;
               }
+              return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
           },
