@@ -1,10 +1,37 @@
+import 'package:carparts/local_notification_plugin.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'firebase_options.dart';
 import 'src/web_view_stack.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-void main() {
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  LocalNotificationPlugin.instance.backgroundDisplay(message);
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  FirebaseMessaging message = FirebaseMessaging.instance;
+  NotificationSettings settings = await message.requestPermission(
+          alert: true,
+          announcement: true,
+          badge: true,
+          carPlay: false,
+          criticalAlert: false,
+          provisional: false,
+          sound: true,
+        );
+
+  print(await FirebaseMessaging.instance.getToken());
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
