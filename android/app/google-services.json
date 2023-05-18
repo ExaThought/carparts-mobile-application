@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "380107233441",
+    "project_id": "carparts-notification",
+    "storage_bucket": "carparts-notification.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:380107233441:android:00eeed95e7e5bd6ecaf8e0",
+        "android_client_info": {
+          "package_name": "com.carparts.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "380107233441-70ef04nl2nhcpijmol00o11f829bu0hm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAre0fFKLFB-mbWkjkWJd7YPWI3FDGcACI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "380107233441-70ef04nl2nhcpijmol00o11f829bu0hm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "380107233441-i8lvclcmhd0i5kp7fd49ndajqsoi2j6s.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.carparts.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

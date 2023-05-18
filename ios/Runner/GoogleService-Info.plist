@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>380107233441-i8lvclcmhd0i5kp7fd49ndajqsoi2j6s.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.380107233441-i8lvclcmhd0i5kp7fd49ndajqsoi2j6s</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA1eRU2DxU5CwVbZgcvHsf_P8NtNyX9PjE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>380107233441</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.carparts.app</string>
+	<key>PROJECT_ID</key>
+	<string>carparts-notification</string>
+	<key>STORAGE_BUCKET</key>
+	<string>carparts-notification.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:380107233441:ios:47e87bef1f98b2bbcaf8e0</string>
+</dict>
+</plist>
