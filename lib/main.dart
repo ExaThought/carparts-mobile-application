@@ -20,7 +20,7 @@ Future<void> main() async {
 
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   FirebaseMessaging message = FirebaseMessaging.instance;
-  NotificationSettings settings = await message.requestPermission(
+ await message.requestPermission(
           alert: true,
           announcement: true,
           badge: true,

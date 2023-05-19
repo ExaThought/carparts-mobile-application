@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAre0fFKLFB-mbWkjkWJd7YPWI3FDGcACI',
-    appId: '1:380107233441:android:00eeed95e7e5bd6ecaf8e0',
-    messagingSenderId: '380107233441',
-    projectId: 'carparts-notification',
-    storageBucket: 'carparts-notification.appspot.com',
+    apiKey: 'AIzaSyBYcwXUPQa5TviMZr37dhMeLhc_-8e37II',
+    appId: '1:597621216820:android:182bbfe2f9fae572d19c61',
+    messagingSenderId: '597621216820',
+    projectId: 'carparts-ios-notification',
+    storageBucket: 'carparts-ios-notification.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA1eRU2DxU5CwVbZgcvHsf_P8NtNyX9PjE',
-    appId: '1:380107233441:ios:47e87bef1f98b2bbcaf8e0',
-    messagingSenderId: '380107233441',
-    projectId: 'carparts-notification',
-    storageBucket: 'carparts-notification.appspot.com',
-    iosClientId: '380107233441-i8lvclcmhd0i5kp7fd49ndajqsoi2j6s.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDO3RI3au8G9kZ_8x0SeH6OAAuP7q7kz8M',
+    appId: '1:597621216820:ios:6fb504016e5848fbd19c61',
+    messagingSenderId: '597621216820',
+    projectId: 'carparts-ios-notification',
+    storageBucket: 'carparts-ios-notification.appspot.com',
+    iosClientId: '597621216820-ptn16j75unf64h6elf7rkfl028gi9pm7.apps.googleusercontent.com',
     iosBundleId: 'com.carparts.app',
   );
 }
