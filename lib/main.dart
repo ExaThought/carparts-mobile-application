@@ -1,8 +1,8 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'src/web_view_stack.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 void main() {
   runApp(
@@ -38,48 +38,33 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://www.carparts.com/?force_can=1'),
-      );
-  }
-
-  Scaffold scaffoldWidget() {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: WebViewStack(controller: controller),
-    );
-  }
-
-  backGestureButton() async {
-    if (await controller.canGoBack()) {
-      await controller.goBack();
-    } else {
-      return Future.value(true);
+    controller = WebViewController();
+    if (controller.platform is WebKitWebViewController) {
+      (controller.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
     }
-    return Future.value(false);
+    controller.loadRequest(
+      Uri.parse('https://www.carparts.com/?force_can=1'),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    print("test deploy");
-    return Platform.isIOS
-        ? GestureDetector(
-            onPanEnd: (details) async => backGestureButton(),
-            child: scaffoldWidget(),
-          )
-        : WillPopScope(
-            child: scaffoldWidget(),
-            onWillPop: () async {
-              if (await controller.canGoBack()) {
-                await controller.goBack();
-              } else {
-                return Future.value(true);
-              }
-              return Future.value(false);
-            },
-          );
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 0,
+        ),
+        body: WebViewStack(controller: controller),
+      ),
+      onWillPop: () async {
+        if (await controller.canGoBack()) {
+          await controller.goBack();
+        } else {
+          return Future.value(true);
+        }
+        return Future.value(false);
+      },
+    );
   }
 }

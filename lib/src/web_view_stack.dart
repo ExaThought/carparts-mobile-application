@@ -3,7 +3,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-
 import '../constants/navigation_constants.dart';
 
 class WebViewStack extends StatefulWidget {
@@ -73,6 +72,9 @@ class _WebViewStackState extends State<WebViewStack> {
           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
             Factory<VerticalDragGestureRecognizer>(
               () => VerticalDragGestureRecognizer(),
+            ),
+            Factory<HorizontalDragGestureRecognizer>(
+              () => HorizontalDragGestureRecognizer(),
             ),
           },
         ),
