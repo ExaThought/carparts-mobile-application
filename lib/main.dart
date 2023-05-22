@@ -78,6 +78,7 @@ class _WebViewAppState extends State<WebViewApp> {
       /*
      *For routing of page from terminated state to be handled here
      */
+    print("MESSAGE $message");
       if (message != null) {
         LocalNotificationPlugin.instance.backgroundDisplay(message);
       }

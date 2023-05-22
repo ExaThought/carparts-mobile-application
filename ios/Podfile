@@ -26,9 +26,11 @@ end
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
 flutter_ios_podfile_setup
-
+ 
 target 'Runner' do
   use_frameworks!
+  pod "Firebase/Core"
+  pod "Firebase/Messaging"
   use_modular_headers!
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))

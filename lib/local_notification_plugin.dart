@@ -15,9 +15,9 @@ class LocalNotificationPlugin {
         InitializationSettings(
       android: AndroidInitializationSettings("@mipmap/ic_launcher"),
       iOS: IOSInitializationSettings(
-        requestSoundPermission: false,
-        requestBadgePermission: false,
-        requestAlertPermission: false,
+        requestSoundPermission: true,
+        requestBadgePermission: true,
+        requestAlertPermission: true,
       ),
     );
     notificationPlugin.initialize(initializationSettings,
