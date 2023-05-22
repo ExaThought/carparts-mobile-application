@@ -72,7 +72,14 @@ class _WebViewAppState extends State<WebViewApp> {
           )
         : WillPopScope(
             child: scaffoldWidget(),
-            onWillPop: () async => backGestureButton(),
+            onWillPop: () async {
+              if (await controller.canGoBack()) {
+                await controller.goBack();
+              } else {
+                return Future.value(true);
+              }
+              return Future.value(false);
+            },
           );
   }
 }
