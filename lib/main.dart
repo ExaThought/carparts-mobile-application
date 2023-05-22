@@ -64,15 +64,16 @@ class _WebViewAppState extends State<WebViewApp> {
 
   @override
   Widget build(BuildContext context) {
-    print("test deploy");
-    return Platform.isIOS
-        ? GestureDetector(
-            onPanEnd: (details) async => backGestureButton(),
-            child: scaffoldWidget(),
-          )
-        : WillPopScope(
-            child: scaffoldWidget(),
-            onWillPop: () async => backGestureButton(),
-          );
+    // print("test deploy");
+    // return Platform.isIOS
+    //     ? GestureDetector(
+    //         onPanEnd: (details) async => backGestureButton(),
+    //         child: scaffoldWidget(),
+    //       )
+    //     :
+    return WillPopScope(
+      child: scaffoldWidget(),
+      onWillPop: () async => backGestureButton(),
+    );
   }
 }
