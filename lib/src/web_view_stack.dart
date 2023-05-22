@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class WebViewStack extends StatefulWidget {
   const WebViewStack({required this.controller, super.key});
@@ -63,6 +64,11 @@ class _WebViewStackState extends State<WebViewStack> {
            gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
               Factory<VerticalDragGestureRecognizer>(
                 () => VerticalDragGestureRecognizer(),
+              ),
+              Factory<HorizontalDragGestureRecognizer>(
+                (){
+                  print("INSIDE HORISONTA");
+                  return HorizontalDragGestureRecognizer();},
               ),
             },
         ),

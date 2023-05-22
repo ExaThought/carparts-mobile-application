@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'src/web_view_stack.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 void main() {
   runApp(
@@ -38,10 +39,14 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://www.carparts.com/?force_can=1'),
-      );
+    controller = WebViewController();
+    if (controller.platform is WebKitWebViewController) {
+      (controller.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
+    }
+    controller.loadRequest(
+      Uri.parse('https://www.carparts.com/?force_can=1'),
+    );
   }
 
   Scaffold scaffoldWidget() {
@@ -64,13 +69,6 @@ class _WebViewAppState extends State<WebViewApp> {
 
   @override
   Widget build(BuildContext context) {
-    // print("test deploy");
-    // return Platform.isIOS
-    //     ? GestureDetector(
-    //         onPanEnd: (details) async => backGestureButton(),
-    //         child: scaffoldWidget(),
-    //       )
-    //     :
     return WillPopScope(
       child: scaffoldWidget(),
       onWillPop: () async => backGestureButton(),
