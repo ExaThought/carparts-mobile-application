@@ -37,10 +37,22 @@ class _WebViewStackState extends State<WebViewStack> {
             });
           },
           onNavigationRequest: (navigation) {
+            // if (navigation.url.contains('fb://page/')) {
+            //   return NavigationDecision.prevent;
+            // }
+            // return NavigationDecision.navigate;
+
+            print("onNavigationRequest&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+            print("onNavigationRequest ${widget.controller.currentUrl().then((value) => print(value))}");
+            print(navigation.url);
             if (navigation.url.contains('fb://page/')) {
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
+          },
+          onUrlChange: (change) {
+            print("onUrlChange*********************************************************************");
+            print("onUrlChange ${widget.controller.currentUrl().then((value) => print(value))}");
           },
         ),
       )
