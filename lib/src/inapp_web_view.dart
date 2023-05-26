@@ -156,6 +156,7 @@ class _InAppWebViewWidgetState extends State<InAppWebViewWidget> with WidgetsBin
                         },
                         shouldOverrideUrlLoading:
                             (controller, navigationAction) async {
+                              print("inapp shouldOverrideUrlLoading&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                           // restrict navigation to target host, open external links in 3rd party apps
                           final uri = navigationAction.request.url;
                           if (uri != null &&
@@ -185,6 +186,7 @@ class _InAppWebViewWidgetState extends State<InAppWebViewWidget> with WidgetsBin
                           }
                         },
                         onCreateWindow: (controller, createWindowAction) async {
+                          print("inapp onCreateWindow&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
                           showDialog(
                             context: context,
                             builder: (context) {

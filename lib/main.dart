@@ -104,7 +104,7 @@ class _MyAppState extends State<MyApp> {
                     InAppWebView(
                       key: webViewKey,
                       initialUrlRequest: URLRequest(
-                          url: WebUri('https://www.carparts.com/?force_can=1')),
+                          url: WebUri('https://www.carparts.com')),
                       initialSettings: settings,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) {
@@ -123,6 +123,10 @@ class _MyAppState extends State<MyApp> {
                             action: PermissionResponseAction.GRANT);
                       },
                       onCreateWindow: (controller, createWindowAction) async {
+                        print("main onCreateWindow***************************************************");
+                        print(controller.getUrl().then((value) => print(value)));
+                        print(controller.getOriginalUrl().then((value) => print(value)));
+                        // print(controller..then((value) => print(value)));
                         if (url.contains("checkout")) {
                           showDialog(
                             context: context,
@@ -131,12 +135,14 @@ class _MyAppState extends State<MyApp> {
                                   createWindowAction: createWindowAction);
                             },
                           );
-                          return true;
+                          return false;
                         }
-                        return false;
+                        // return false;
+                        return true;
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
+                            print("main shouldOverrideUrlLoading***************************************************");
                         var uri = navigationAction.request.url!;
 
                         if (![
@@ -187,7 +193,7 @@ class _MyAppState extends State<MyApp> {
                         });
                       },
                       onConsoleMessage: (controller, consoleMessage) {
-                        print(consoleMessage);
+                        // print(consoleMessage);
                       },
                     ),
                     progress < 1.0
