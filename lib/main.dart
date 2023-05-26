@@ -1,3 +1,4 @@
+import 'package:carparts/src/inapp_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -50,21 +51,22 @@ class _WebViewAppState extends State<WebViewApp> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 0,
-        ),
-        body: WebViewStack(controller: controller),
-      ),
-      onWillPop: () async {
-        if (await controller.canGoBack()) {
-          await controller.goBack();
-        } else {
-          return Future.value(true);
-        }
-        return Future.value(false);
-      },
-    );
+    return InAppWebViewWidget();
+    // return WillPopScope(
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       toolbarHeight: 0,
+    //     ),
+    //     body: WebViewStack(controller: controller),
+    //   ),
+    //   onWillPop: () async {
+    //     if (await controller.canGoBack()) {
+    //       await controller.goBack();
+    //     } else {
+    //       return Future.value(true);
+    //     }
+    //     return Future.value(false);
+    //   },
+    // );
   }
 }
