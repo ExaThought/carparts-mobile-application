@@ -1,13 +1,19 @@
-import 'package:carparts/src/inapp_web_view.dart';
+import 'dart:async';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'src/web_view_stack.dart';
-import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+  }
+
+  runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         appBarTheme: AppBarTheme(
@@ -21,52 +27,233 @@ void main() {
           ),
         ),
       ),
-      home: const WebViewApp(),
-    ),
-  );
+      home: new MyApp()));
 }
 
-class WebViewApp extends StatefulWidget {
-  const WebViewApp({super.key});
-
+class MyApp extends StatefulWidget {
   @override
-  State<WebViewApp> createState() => _WebViewAppState();
+  _MyAppState createState() => new _MyAppState();
 }
 
-class _WebViewAppState extends State<WebViewApp> {
-  late final WebViewController controller;
+class _MyAppState extends State<MyApp> {
+  final GlobalKey webViewKey = GlobalKey();
+
+  InAppWebViewController? webViewController;
+  InAppWebViewSettings settings = InAppWebViewSettings(
+      allowsBackForwardNavigationGestures: true,
+      supportMultipleWindows: true,
+
+      // useShouldOverrideUrlLoading: true,
+      mediaPlaybackRequiresUserGesture: true,
+      allowsInlineMediaPlayback: true,
+      // // iframeAllow: "camera; microphone",
+      iframeAllowFullscreen: true,
+      userAgent:
+          'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.105 Mobile Safari/537.36');
+
+  PullToRefreshController? pullToRefreshController;
+  String url = "";
+  double progress = 0;
+  final urlController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    controller = WebViewController();
-    if (controller.platform is WebKitWebViewController) {
-      (controller.platform as WebKitWebViewController)
-          .setAllowsBackForwardNavigationGestures(true);
-    }
-    controller.loadRequest(
-      Uri.parse('https://www.carparts.com/?force_can=1'),
-    );
+
+    pullToRefreshController = kIsWeb
+        ? null
+        : PullToRefreshController(
+            settings: PullToRefreshSettings(
+              color: Color.fromARGB(255, 47, 71, 135),
+            ),
+            onRefresh: () async {
+              if (defaultTargetPlatform == TargetPlatform.android) {
+                webViewController?.reload();
+              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
+                webViewController?.loadUrl(
+                    urlRequest:
+                        URLRequest(url: await webViewController?.getUrl()));
+              }
+            },
+          );
   }
 
   @override
   Widget build(BuildContext context) {
-    return InAppWebViewWidget();
-    // return WillPopScope(
-    //   child: Scaffold(
-    //     appBar: AppBar(
-    //       toolbarHeight: 0,
-    //     ),
-    //     body: WebViewStack(controller: controller),
-    //   ),
-    //   onWillPop: () async {
-    //     if (await controller.canGoBack()) {
-    //       await controller.goBack();
-    //     } else {
-    //       return Future.value(true);
-    //     }
-    //     return Future.value(false);
-    //   },
-    // );
+    return WillPopScope(
+        onWillPop: () async {
+          // detect Android back button click
+          final controller = webViewController;
+          if (controller != null) {
+            if (await controller.canGoBack()) {
+              controller.goBack();
+              return false;
+            }
+          }
+          return true;
+        },
+        child: Scaffold(
+            appBar: AppBar(
+              toolbarHeight: 0,
+            ),
+            body: SafeArea(
+                child: Column(children: <Widget>[
+              Expanded(
+                child: Stack(
+                  children: [
+                    InAppWebView(
+                      key: webViewKey,
+                      initialUrlRequest: URLRequest(
+                          url: WebUri('https://www.carparts.com/?force_can=1')),
+                      initialSettings: settings,
+                      pullToRefreshController: pullToRefreshController,
+                      onWebViewCreated: (controller) {
+                        webViewController = controller;
+                      },
+                      onLoadStart: (controller, url) {
+                        // print("URL" + url.toString());
+                        setState(() {
+                          this.url = url.toString();
+                          urlController.text = this.url;
+                        });
+                      },
+                      onPermissionRequest: (controller, request) async {
+                        return PermissionResponse(
+                            resources: request.resources,
+                            action: PermissionResponseAction.GRANT);
+                      },
+                      onCreateWindow: (controller, createWindowAction) async {
+                        if (url.contains("checkout")) {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return WindowPopup(
+                                  createWindowAction: createWindowAction);
+                            },
+                          );
+                          return true;
+                        }
+                        return false;
+                      },
+                      shouldOverrideUrlLoading:
+                          (controller, navigationAction) async {
+                        var uri = navigationAction.request.url!;
+
+                        if (![
+                          "http",
+                          "https",
+                          "file",
+                          "chrome",
+                          "data",
+                          "javascript",
+                          "about"
+                        ].contains(uri.scheme)) {
+                          if (await canLaunchUrl(uri)) {
+                            // Launch the App
+                            await launchUrl(
+                              uri,
+                            );
+                            // and cancel the request
+                            return NavigationActionPolicy.CANCEL;
+                          }
+                        }
+
+                        return NavigationActionPolicy.ALLOW;
+                      },
+                      onLoadStop: (controller, url) async {
+                        pullToRefreshController?.endRefreshing();
+                        setState(() {
+                          this.url = url.toString();
+                          urlController.text = this.url;
+                        });
+                      },
+                      onReceivedError: (controller, request, error) {
+                        pullToRefreshController?.endRefreshing();
+                      },
+                      onProgressChanged: (controller, progress) {
+                        if (progress == 100) {
+                          pullToRefreshController?.endRefreshing();
+                        }
+                        setState(() {
+                          this.progress = progress / 100;
+                          urlController.text = this.url;
+                        });
+                      },
+                      onUpdateVisitedHistory:
+                          (controller, url, androidIsReload) {
+                        setState(() {
+                          this.url = url.toString();
+                          urlController.text = this.url;
+                        });
+                      },
+                      onConsoleMessage: (controller, consoleMessage) {
+                        print(consoleMessage);
+                      },
+                    ),
+                    progress < 1.0
+                        ? LinearProgressIndicator(value: progress)
+                        : Container(),
+                  ],
+                ),
+              ),
+            ]))));
+  }
+}
+
+class WindowPopup extends StatefulWidget {
+  final CreateWindowAction createWindowAction;
+
+  const WindowPopup({Key? key, required this.createWindowAction})
+      : super(key: key);
+
+  @override
+  State<WindowPopup> createState() => _WindowPopupState();
+}
+
+class _WindowPopupState extends State<WindowPopup> {
+  String title = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(mainAxisSize: MainAxisSize.max, children: [
+              Expanded(
+                child:
+                    Text(title, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.close))
+            ]),
+            Expanded(
+              child: InAppWebView(
+                gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                  Factory<OneSequenceGestureRecognizer>(
+                    () => EagerGestureRecognizer(),
+                  ),
+                },
+                windowId: widget.createWindowAction.windowId,
+                onTitleChanged: (controller, title) {
+                  setState(() {
+                    this.title = title ?? '';
+                  });
+                },
+                onCloseWindow: (controller) {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
