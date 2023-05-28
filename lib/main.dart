@@ -103,8 +103,8 @@ class _MyAppState extends State<MyApp> {
                   children: [
                     InAppWebView(
                       key: webViewKey,
-                      initialUrlRequest: URLRequest(
-                          url: WebUri('https://www.carparts.com')),
+                      initialUrlRequest:
+                          URLRequest(url: WebUri('https://www.carparts.com')),
                       initialSettings: settings,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) {
@@ -123,10 +123,18 @@ class _MyAppState extends State<MyApp> {
                             action: PermissionResponseAction.GRANT);
                       },
                       onCreateWindow: (controller, createWindowAction) async {
-                        print("main onCreateWindow***************************************************");
-                        print(controller.getUrl().then((value) => print(value)));
-                        print(controller.getOriginalUrl().then((value) => print(value)));
+                        print(
+                            "main onCreateWindow***************************************************");
+                        // print(
+                        //     controller.getUrl().then((value) => print(value)));
+                        // print(controller
+                        //     .getOriginalUrl()
+                        //     .then((value) => print(value)));
                         // print(controller..then((value) => print(value)));
+                        if (url.contains("fb://page/")) {
+                          print("facebook");
+                          return false;
+                        }
                         if (url.contains("checkout")) {
                           showDialog(
                             context: context,
@@ -135,16 +143,30 @@ class _MyAppState extends State<MyApp> {
                                   createWindowAction: createWindowAction);
                             },
                           );
-                          return false;
+                          return true;
                         }
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return IWindowPopup(
+                              createWindowAction: createWindowAction,
+                              webViewController: webViewController,
+                            );
+                          },
+                        );
                         // return false;
                         return true;
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
-                            print("main shouldOverrideUrlLoading***************************************************");
+                        print(
+                            "main shouldOverrideUrlLoading***************************************************");
                         var uri = navigationAction.request.url!;
 
+                        if (url.contains("fb://page/")) {
+                          return NavigationActionPolicy.CANCEL;
+                        }
+                        
                         if (![
                           "http",
                           "https",
@@ -258,6 +280,70 @@ class _WindowPopupState extends State<WindowPopup> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class IWindowPopup extends StatefulWidget {
+  CreateWindowAction createWindowAction;
+  InAppWebViewController? webViewController;
+
+  IWindowPopup(
+      {Key? key,
+      required this.createWindowAction,
+      required this.webViewController})
+      : super(key: key);
+
+  @override
+  State<IWindowPopup> createState() => _IWindowPopupState();
+}
+
+class _IWindowPopupState extends State<IWindowPopup> {
+  String title = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        // detect Android back button click
+        final controller = widget.webViewController;
+        if (controller != null) {
+          if (await controller.canGoBack()) {
+            controller.goBack();
+            return false;
+          }
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: SizedBox(
+          // width: MediaQuery.of(context).size.width,
+          // height: MediaQuery.of(context).size.height,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Expanded(
+                child: InAppWebView(
+                  gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  },
+                  windowId: widget.createWindowAction.windowId,
+                  onTitleChanged: (controller, title) {
+                    setState(() {
+                      this.title = title ?? '';
+                    });
+                  },
+                  onCloseWindow: (controller) {
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
