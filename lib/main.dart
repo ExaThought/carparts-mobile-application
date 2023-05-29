@@ -144,17 +144,17 @@ class _MyAppState extends State<MyApp> {
                             },
                           );
                           return true;
-                        } else if(Platform.isAndroid) {
+                        } else if (Platform.isAndroid) {
                           print("INSIDE");
                           showDialog(
-                          context: context,
-                          builder: (context) {
-                            return NavigationWindowWidget(
-                              createWindowAction: createWindowAction,
-                              webViewController: webViewController,
-                            );
-                          },
-                        );
+                            context: context,
+                            builder: (context) {
+                              return NavigationWindowWidget(
+                                  createWindowAction: createWindowAction,
+                                  webViewController: webViewController,
+                                  url: url);
+                            },
+                          );
                           // NavigationWindowWidget(
                           //   createWindowAction: createWindowAction,
                           //   webViewController: webViewController,
@@ -305,15 +305,18 @@ class _WindowPopupState extends State<WindowPopup> {
 class NavigationWindowWidget extends StatefulWidget {
   final CreateWindowAction createWindowAction;
   final InAppWebViewController? webViewController;
+  final String url;
 
   NavigationWindowWidget(
       {Key? key,
       required this.createWindowAction,
-      required this.webViewController})
+      required this.webViewController,
+      required this.url})
       : super(key: key);
 
   @override
-  _NavigationWindowWidgetState createState() => new _NavigationWindowWidgetState();
+  _NavigationWindowWidgetState createState() =>
+      new _NavigationWindowWidgetState();
 }
 
 class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
@@ -344,14 +347,66 @@ class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
               Expanded(
                 child: InAppWebView(
                   initialSettings: InAppWebViewSettings(
-                    javaScriptEnabled: true,
-                    allowsBackForwardNavigationGestures: true,
+                      javaScriptEnabled: true,
+                      allowsBackForwardNavigationGestures: true,
                       supportMultipleWindows: true,
                       javaScriptCanOpenWindowsAutomatically: true),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<OneSequenceGestureRecognizer>(
                       () => EagerGestureRecognizer(),
                     ),
+                  },
+                  onCreateWindow: (controller, createWindowAction) async {
+                    print(
+                        "main onCreateWindow***************************************************");
+                    // print(
+                    //     controller.getUrl().then((value) => print(value)));
+                    // print(controller
+                    //     .getOriginalUrl()
+                    //     .then((value) => print(value)));
+                    // print(controller..then((value) => print(value)));
+                    if (widget.url.contains("fb://page/")) {
+                      print("facebook");
+                      return false;
+                    }
+                    if (widget.url.contains("checkout")) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return WindowPopup(
+                              createWindowAction: createWindowAction);
+                        },
+                      );
+                      return true;
+                    } else if (Platform.isAndroid) {
+                      print("INSIDE");
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return NavigationWindowWidget(
+                            createWindowAction: createWindowAction,
+                            webViewController: widget.webViewController,
+                            url: widget.url,
+                          );
+                        },
+                      );
+                      // NavigationWindowWidget(
+                      //   createWindowAction: createWindowAction,
+                      //   webViewController: webViewController,
+                      // );
+                      return true;
+                    }
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (context) {
+                    //     return NavigationWindowWidget(
+                    //       createWindowAction: createWindowAction,
+                    //       webViewController: webViewController,
+                    //     );
+                    //   },
+                    // );
+                    // return false;
+                    // return true;
                   },
                   windowId: widget.createWindowAction.windowId,
                   onTitleChanged: (controller, title) {
