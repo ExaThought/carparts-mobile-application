@@ -41,17 +41,20 @@ class _MyAppState extends State<MyApp> {
 
   InAppWebViewController? webViewController;
   InAppWebViewSettings settings = InAppWebViewSettings(
-      allowsBackForwardNavigationGestures: true,
-      supportMultipleWindows: true,
-      // useShouldOverrideUrlLoading: true,
-      mediaPlaybackRequiresUserGesture: true,
-      allowsInlineMediaPlayback: true,
-      // // iframeAllow: "camera; microphone",
-      iframeAllowFullscreen: true,
-      userAgent:'(Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36',
-      // userAgent:
-      //     'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.105 Mobile Safari/537.36'
-          );
+    javaScriptEnabled: true,
+    javaScriptCanOpenWindowsAutomatically: true,
+    allowsBackForwardNavigationGestures: true,
+    supportMultipleWindows: true,
+    // useShouldOverrideUrlLoading: true,
+    mediaPlaybackRequiresUserGesture: true,
+    allowsInlineMediaPlayback: true,
+    // // iframeAllow: "camera; microphone",
+    iframeAllowFullscreen: true,
+    userAgent:
+        '(Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36',
+    // userAgent:
+    //     'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.105 Mobile Safari/537.36'
+  );
 
   PullToRefreshController? pullToRefreshController;
   String url = "";
