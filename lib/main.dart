@@ -8,9 +8,7 @@ import 'firebase_options.dart';
 import 'src/web_view_stack.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  LocalNotificationPlugin.instance.backgroundDisplay(message);
-}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,18 +27,6 @@ Future<void> main() async {
     provisional: false,
     sound: true,
   );
-
-  print('User granted permission: ${settings.authorizationStatus}');
-  print(await FirebaseMessaging.instance.getToken());
-
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    print('Got a message whilst in the foreground!');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null) {
-      print('Message also contained a notification: ${message.notification}');
-    }
-  });
 
   runApp(
     MaterialApp(
@@ -86,9 +72,6 @@ class _WebViewAppState extends State<WebViewApp> {
       /*
      *For routing of page from terminated state to be handled here
      */
-      if (message != null) {
-        LocalNotificationPlugin.instance.backgroundDisplay(message);
-      }
     });
 
     /*
@@ -104,9 +87,7 @@ class _WebViewAppState extends State<WebViewApp> {
       *Works only when app is in background but opened and user taps
       */
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      LocalNotificationPlugin.instance.backgroundDisplay(message);
-    });
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {});
 
     controller = WebViewController();
     if (controller.platform is WebKitWebViewController) {

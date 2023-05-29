@@ -6,10 +6,6 @@ class LocalNotificationPlugin {
   static final FlutterLocalNotificationsPlugin notificationPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future onSelectNotification(String? payload) async {
-    print("****");
-  }
-
   void initialize() {
     const InitializationSettings initializationSettings =
         InitializationSettings(
@@ -20,8 +16,7 @@ class LocalNotificationPlugin {
         requestAlertPermission: false,
       ),
     );
-    notificationPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+    notificationPlugin.initialize(initializationSettings);
   }
 
   void display(RemoteMessage message) async {
@@ -44,9 +39,5 @@ class LocalNotificationPlugin {
     } catch (error) {
       rethrow;
     }
-  }
-
-  void backgroundDisplay(RemoteMessage message) async {
-    print("Handling a background message: ${message.messageId}");
   }
 }
