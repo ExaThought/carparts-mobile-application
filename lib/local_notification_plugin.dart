@@ -7,7 +7,7 @@ class LocalNotificationPlugin {
       FlutterLocalNotificationsPlugin();
 
   Future onSelectNotification(String? payload) async {
-  print("****");
+    print("****");
   }
 
   void initialize() {
@@ -47,6 +47,6 @@ class LocalNotificationPlugin {
   }
 
   void backgroundDisplay(RemoteMessage message) async {
-  print("");
+    print("Handling a background message: ${message.messageId}");
   }
 }

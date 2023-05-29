@@ -21,16 +21,26 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   FirebaseMessaging message = FirebaseMessaging.instance;
   NotificationSettings settings = await message.requestPermission(
-          alert: true,
-          announcement: true,
-          badge: true,
-          carPlay: false,
-          criticalAlert: false,
-          provisional: false,
-          sound: true,
-        );
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
 
+  print('User granted permission: ${settings.authorizationStatus}');
   print(await FirebaseMessaging.instance.getToken());
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Got a message whilst in the foreground!');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null) {
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
 
   runApp(
     MaterialApp(
@@ -65,6 +75,39 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      LocalNotificationPlugin.instance.initialize();
+    });
+    /*
+    *On click of notification, it opens app from terminated state
+    * It is also important so that foreground works and used when app is in background or terminated or closed
+    */
+    FirebaseMessaging.instance.getInitialMessage().then((message) {
+      /*
+     *For routing of page from terminated state to be handled here
+     */
+      if (message != null) {
+        LocalNotificationPlugin.instance.backgroundDisplay(message);
+      }
+    });
+
+    /*
+    *When app is in foreground that is running 
+    */
+    FirebaseMessaging.onMessage.listen((message) {
+      LocalNotificationPlugin.instance.display(message);
+    });
+    /*
+      *When app is open and to make sure for onclick of notification that, 
+      *It is routed to different page
+      *Works when user taps on the notification 
+      *Works only when app is in background but opened and user taps
+      */
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      LocalNotificationPlugin.instance.backgroundDisplay(message);
+    });
+
     controller = WebViewController();
     if (controller.platform is WebKitWebViewController) {
       (controller.platform as WebKitWebViewController)
