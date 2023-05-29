@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,6 @@ class _MyAppState extends State<MyApp> {
   InAppWebViewSettings settings = InAppWebViewSettings(
       allowsBackForwardNavigationGestures: true,
       supportMultipleWindows: true,
-
       // useShouldOverrideUrlLoading: true,
       mediaPlaybackRequiresUserGesture: true,
       allowsInlineMediaPlayback: true,
@@ -144,18 +144,34 @@ class _MyAppState extends State<MyApp> {
                             },
                           );
                           return true;
-                        }
-                        showDialog(
+                        } else if(Platform.isAndroid) {
+                          print("INSIDE");
+                          showDialog(
                           context: context,
                           builder: (context) {
-                            return IWindowPopup(
+                            return NavigationWindowWidget(
                               createWindowAction: createWindowAction,
                               webViewController: webViewController,
                             );
                           },
                         );
+                          // NavigationWindowWidget(
+                          //   createWindowAction: createWindowAction,
+                          //   webViewController: webViewController,
+                          // );
+                          return true;
+                        }
+                        // showDialog(
+                        //   context: context,
+                        //   builder: (context) {
+                        //     return NavigationWindowWidget(
+                        //       createWindowAction: createWindowAction,
+                        //       webViewController: webViewController,
+                        //     );
+                        //   },
+                        // );
                         // return false;
-                        return true;
+                        // return true;
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
@@ -166,7 +182,7 @@ class _MyAppState extends State<MyApp> {
                         if (url.contains("fb://page/")) {
                           return NavigationActionPolicy.CANCEL;
                         }
-                        
+
                         if (![
                           "http",
                           "https",
@@ -286,25 +302,26 @@ class _WindowPopupState extends State<WindowPopup> {
   }
 }
 
-class IWindowPopup extends StatefulWidget {
-  CreateWindowAction createWindowAction;
-  InAppWebViewController? webViewController;
+class NavigationWindowWidget extends StatefulWidget {
+  final CreateWindowAction createWindowAction;
+  final InAppWebViewController? webViewController;
 
-  IWindowPopup(
+  NavigationWindowWidget(
       {Key? key,
       required this.createWindowAction,
       required this.webViewController})
       : super(key: key);
 
   @override
-  State<IWindowPopup> createState() => _IWindowPopupState();
+  _NavigationWindowWidgetState createState() => new _NavigationWindowWidgetState();
 }
 
-class _IWindowPopupState extends State<IWindowPopup> {
+class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
   String title = '';
 
   @override
   Widget build(BuildContext context) {
+    print("WIDGET VIEW");
     return WillPopScope(
       onWillPop: () async {
         // detect Android back button click
@@ -326,6 +343,11 @@ class _IWindowPopupState extends State<IWindowPopup> {
             children: [
               Expanded(
                 child: InAppWebView(
+                  initialSettings: InAppWebViewSettings(
+                    javaScriptEnabled: true,
+                    allowsBackForwardNavigationGestures: true,
+                      supportMultipleWindows: true,
+                      javaScriptCanOpenWindowsAutomatically: true),
                   gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                     Factory<OneSequenceGestureRecognizer>(
                       () => EagerGestureRecognizer(),
