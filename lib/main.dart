@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
       // // iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
       userAgent:
-          'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.105 Mobile Safari/537.36');
+          'Mobile Safari/537.36');
 
   PullToRefreshController? pullToRefreshController;
   String url = "";
@@ -123,18 +123,6 @@ class _MyAppState extends State<MyApp> {
                             action: PermissionResponseAction.GRANT);
                       },
                       onCreateWindow: (controller, createWindowAction) async {
-                        print(
-                            "main onCreateWindow***************************************************");
-                        // print(
-                        //     controller.getUrl().then((value) => print(value)));
-                        // print(controller
-                        //     .getOriginalUrl()
-                        //     .then((value) => print(value)));
-                        // print(controller..then((value) => print(value)));
-                        if (url.contains("fb://page/")) {
-                          print("facebook");
-                          return false;
-                        }
                         if (url.contains("checkout")) {
                           showDialog(
                             context: context,
@@ -155,23 +143,9 @@ class _MyAppState extends State<MyApp> {
                                   url: url);
                             },
                           );
-                          // NavigationWindowWidget(
-                          //   createWindowAction: createWindowAction,
-                          //   webViewController: webViewController,
-                          // );
                           return true;
                         }
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (context) {
-                        //     return NavigationWindowWidget(
-                        //       createWindowAction: createWindowAction,
-                        //       webViewController: webViewController,
-                        //     );
-                        //   },
-                        // );
-                        // return false;
-                        // return true;
+                        return false;
                       },
                       shouldOverrideUrlLoading:
                           (controller, navigationAction) async {
@@ -357,56 +331,18 @@ class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
                     ),
                   },
                   onCreateWindow: (controller, createWindowAction) async {
-                    print(
-                        "main onCreateWindow***************************************************");
-                    // print(
-                    //     controller.getUrl().then((value) => print(value)));
-                    // print(controller
-                    //     .getOriginalUrl()
-                    //     .then((value) => print(value)));
-                    // print(controller..then((value) => print(value)));
-                    if (widget.url.contains("fb://page/")) {
-                      print("facebook");
-                      return false;
-                    }
-                    if (widget.url.contains("checkout")) {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return WindowPopup(
-                              createWindowAction: createWindowAction);
-                        },
-                      );
-                      return true;
-                    } else if (Platform.isAndroid) {
-                      print("INSIDE");
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return NavigationWindowWidget(
-                            createWindowAction: createWindowAction,
-                            webViewController: widget.webViewController,
-                            url: widget.url,
-                          );
-                        },
-                      );
-                      // NavigationWindowWidget(
-                      //   createWindowAction: createWindowAction,
-                      //   webViewController: webViewController,
-                      // );
-                      return true;
-                    }
-                    // showDialog(
-                    //   context: context,
-                    //   builder: (context) {
-                    //     return NavigationWindowWidget(
-                    //       createWindowAction: createWindowAction,
-                    //       webViewController: webViewController,
-                    //     );
-                    //   },
-                    // );
-                    // return false;
-                    // return true;
+                    print("OHHH");
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return NavigationWindowWidget(
+                          createWindowAction: createWindowAction,
+                          webViewController: widget.webViewController,
+                          url: widget.url,
+                        );
+                      },
+                    );
+                    return true;
                   },
                   windowId: widget.createWindowAction.windowId,
                   onTitleChanged: (controller, title) {
