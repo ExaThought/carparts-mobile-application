@@ -108,8 +108,8 @@ class _MyAppState extends State<MyApp> {
                   children: [
                     InAppWebView(
                       key: webViewKey,
-                      initialUrlRequest:
-                          URLRequest(url: WebUri('https://www.carparts.com')),
+                      initialUrlRequest: URLRequest(
+                          url: WebUri('https://www.carparts.com/?force_can=1')),
                       initialSettings: settings,
                       pullToRefreshController: pullToRefreshController,
                       onWebViewCreated: (controller) {
