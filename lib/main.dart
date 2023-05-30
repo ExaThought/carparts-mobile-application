@@ -50,8 +50,8 @@ class _MyAppState extends State<MyApp> {
     allowsInlineMediaPlayback: true,
     // // iframeAllow: "camera; microphone",
     iframeAllowFullscreen: true,
-    userAgent:
-        '(Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36',
+    // userAgent:
+    //     '(Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Mobile Safari/537.36',
     // userAgent:
     //     'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.5304.105 Mobile Safari/537.36'
   );
@@ -326,6 +326,8 @@ class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
               Expanded(
                 child: InAppWebView(
                   initialSettings: InAppWebViewSettings(
+                      useOnLoadResource: true,
+                      // useShouldOverrideUrlLoading: true,
                       javaScriptEnabled: true,
                       allowsBackForwardNavigationGestures: true,
                       supportMultipleWindows: true,
@@ -335,8 +337,88 @@ class _NavigationWindowWidgetState extends State<NavigationWindowWidget> {
                       () => EagerGestureRecognizer(),
                     ),
                   },
+                  // onPermissionRequest: (controller, request) async {
+                  //   print(request);
+                  //   return PermissionResponse(
+                  //       resources: request.resources,
+                  //       action: PermissionResponseAction.GRANT);
+                  // },
+                  onLoadStart: (controller, url) async {
+                    print("ON LOAD START" + url.toString());
+                    var urlValue = url.toString();
+                    if (urlValue.contains("instagram")) {
+                      var instaUrl = "https://www.instagram.com/carpartscom/";
+                      if (urlValue == instaUrl) {
+                        print("INSIDE LOAD");
+                        launchUrl(
+                            Uri.parse("https://www.instagram.com/carpartscom/"),
+                            mode: LaunchMode.externalNonBrowserApplication,
+                            webViewConfiguration:
+                                WebViewConfiguration(enableJavaScript: true));
+                      }
+                      NavigationActionPolicy.CANCEL;
+                      // if (url
+                      //     .contains("https://www.instagram.com/carpartscom/")) {
+                      //       print("IFF"+url);
+                      //   NavigationActionPolicy.ALLOW;
+                      // }
+                      // else {
+                      //   print("ELSE"+url);
+                      //   NavigationActionPolicy.CANCEL;
+                      // }
+
+                      // if (urlValue
+                      //     .contains("https://www.instagram.com/carpartscom/")) {
+                      //   print("IFF" + urlValue);
+                      //   // NavigationActionPolicy.ALLOW;
+                      //   launchUrl(
+                      //       Uri.parse("https://www.instagram.com/carpartscom/"),
+                      //       mode: LaunchMode.externalApplication);
+                      // } else {
+                      //   print("ELSE" + urlValue);
+                      //   NavigationActionPolicy.CANCEL;
+                      // }
+                    }
+                  },
+                  // onLoadStop: (controller, url) async {
+                  //   print("ON LOAD STOP" + url.toString());
+                  //   var urlValue = url.toString();
+                  //   if (urlValue.contains("instagram")) {
+                  //     if (urlValue
+                  //         .contains("https://www.instagram.com/carpartscom/")) {
+                  //       print("IFF" + urlValue);
+                  //       NavigationActionPolicy.ALLOW;
+                  //     } else {
+                  //       print("ELSE" + urlValue);
+                  //       NavigationActionPolicy.CANCEL;
+                  //     }
+                  //   }
+                  // },
+                  // onLoadResource: (controller, resource) {
+                  //   print("ON LOAD RESOURCE" + resource.url.toString());
+                  //   var url = resource.url.toString();
+                  //   var instaUrl="https://www.instagram.com/carpartscom/";
+                  //   if (url.contains("instagram")) {
+                  //     if(url!=instaUrl)
+                  //     {
+                  //       NavigationActionPolicy.CANCEL;
+                  //     }
+                  //     NavigationActionPolicy.ALLOW;
+                  //     // if (url
+                  //     //     .contains("https://www.instagram.com/carpartscom/")) {
+                  //     //       print("IFF"+url);
+                  //     //   NavigationActionPolicy.ALLOW;
+                  //     // }
+                  //     // else {
+                  //     //   print("ELSE"+url);
+                  //     //   NavigationActionPolicy.CANCEL;
+                  //     // }
+                  //   }
+                  // },
                   onCreateWindow: (controller, createWindowAction) async {
-                    print("OHHH");
+                    print("ON onCreateWindow" + widget.url);
+                    //https://static.cdninstagram.com/
+                    //https://www.instagram.com/carpartscom/
                     showDialog(
                       context: context,
                       builder: (context) {
