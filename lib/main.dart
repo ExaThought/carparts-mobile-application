@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:carparts/local_notification_plugin.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -7,10 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'firebase_options.dart';
 import 'src/web_view_stack.dart';
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
-Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  LocalNotificationPlugin.instance.backgroundDisplay(message);
-}
+Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,16 +19,14 @@ Future<void> main() async {
   FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   FirebaseMessaging message = FirebaseMessaging.instance;
   NotificationSettings settings = await message.requestPermission(
-          alert: true,
-          announcement: true,
-          badge: true,
-          carPlay: false,
-          criticalAlert: false,
-          provisional: false,
-          sound: true,
-        );
-
-  print(await FirebaseMessaging.instance.getToken());
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
 
   runApp(
     MaterialApp(
@@ -65,10 +61,8 @@ class _WebViewAppState extends State<WebViewApp> {
   @override
   void initState() {
     super.initState();
-
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      LocalNotificationPlugin.instance
-          .initialize();
+      LocalNotificationPlugin.instance.initialize();
     });
     /*
     *On click of notification, it opens app from terminated state
@@ -78,10 +72,6 @@ class _WebViewAppState extends State<WebViewApp> {
       /*
      *For routing of page from terminated state to be handled here
      */
-    print("MESSAGE $message");
-      if (message != null) {
-        LocalNotificationPlugin.instance.backgroundDisplay(message);
-      }
     });
 
     /*
@@ -97,43 +87,35 @@ class _WebViewAppState extends State<WebViewApp> {
       *Works only when app is in background but opened and user taps
       */
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      LocalNotificationPlugin.instance.backgroundDisplay(message);
-    });
-    controller = WebViewController()
-      ..loadRequest(
-        Uri.parse('https://www.carparts.com/'),
-      );
-  }
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {});
 
-  Scaffold scaffoldWidget() {
-    return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 0,
-      ),
-      body: WebViewStack(controller: controller),
-    );
-  }
-
-  backGestureButton() async {
-    if (await controller.canGoBack()) {
-      await controller.goBack();
-    } else {
-      return Future.value(true);
+    controller = WebViewController();
+    if (controller.platform is WebKitWebViewController) {
+      (controller.platform as WebKitWebViewController)
+          .setAllowsBackForwardNavigationGestures(true);
     }
-    return Future.value(false);
+    controller.loadRequest(
+      Uri.parse('https://www.carparts.com/?force_can=1'),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Platform.isIOS
-        ? GestureDetector(
-            onPanEnd: (details) async => backGestureButton(),
-            child: scaffoldWidget(),
-          )
-        : WillPopScope(
-            child: scaffoldWidget(),
-            onWillPop: () async => backGestureButton(),
-          );
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: 0,
+        ),
+        body: WebViewStack(controller: controller),
+      ),
+      onWillPop: () async {
+        if (await controller.canGoBack()) {
+          await controller.goBack();
+        } else {
+          return Future.value(true);
+        }
+        return Future.value(false);
+      },
+    );
   }
 }

@@ -106,7 +106,12 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+<<<<<<< HEAD
   - PromisesObjC (2.2.0)
+=======
+  - url_launcher_ios (0.0.1):
+    - Flutter
+>>>>>>> 6badee3e87079d91557657f36253f45bb3c146b6
   - webview_flutter_wkwebview (0.0.1):
     - Flutter
 
@@ -116,8 +121,13 @@ DEPENDENCIES:
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
   - Flutter (from `Flutter`)
+<<<<<<< HEAD
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+=======
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/ios`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+>>>>>>> 6badee3e87079d91557657f36253f45bb3c146b6
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/ios`)
 
 SPEC REPOS:
@@ -144,7 +154,13 @@ EXTERNAL SOURCES:
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   path_provider_foundation:
+<<<<<<< HEAD
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
+=======
+    :path: ".symlinks/plugins/path_provider_foundation/ios"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+>>>>>>> 6badee3e87079d91557657f36253f45bb3c146b6
   webview_flutter_wkwebview:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/ios"
 
@@ -164,7 +180,11 @@ SPEC CHECKSUMS:
   GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
+<<<<<<< HEAD
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+=======
+  url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
+>>>>>>> 6badee3e87079d91557657f36253f45bb3c146b6
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 4130f8383c945832104e759261d0ee1882d9329b

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import '../constants/navigation_constants.dart';
 
 class WebViewStack extends StatefulWidget {
   const WebViewStack({required this.controller, super.key});
@@ -36,8 +38,15 @@ class _WebViewStackState extends State<WebViewStack> {
               loadingPercentage = 100;
             });
           },
-          onNavigationRequest: (navigation) {
-            if (navigation.url.contains('fb://page/')) {
+          onNavigationRequest: (navigation) async {
+            final Uri uri = Uri.parse(navigation.url);
+            if (navigation.url.contains(NavigationConstants.faceBook)) {
+              return NavigationDecision.prevent;
+            }
+            if (navigation.url.contains(NavigationConstants.needHelp)) {
+              if (await canLaunchUrl(uri)) {
+                await launchUrl(uri);
+              }
               return NavigationDecision.prevent;
             }
             return NavigationDecision.navigate;
@@ -60,11 +69,14 @@ class _WebViewStackState extends State<WebViewStack> {
       children: [
         WebViewWidget(
           controller: widget.controller,
-           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
-              Factory<VerticalDragGestureRecognizer>(
-                () => VerticalDragGestureRecognizer(),
-              ),
-            },
+          gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
+            Factory<VerticalDragGestureRecognizer>(
+              () => VerticalDragGestureRecognizer(),
+            ),
+            Factory<HorizontalDragGestureRecognizer>(
+              () => HorizontalDragGestureRecognizer(),
+            ),
+          },
         ),
         if (loadingPercentage < 100)
           LinearProgressIndicator(
